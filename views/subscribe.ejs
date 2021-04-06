@@ -1,0 +1,19 @@
+<%- include("partials/header-subscribe") -%>
+
+<body class="text-center">
+  <form class="form-subscribe" action="/subscribe" method="post">
+    <img src="/images/paperwindmill.png" alt="Paper Windmill" class="rotate" id="windmill" width="72" height="72" style="margin-bottom:30px">
+    <h1 class="h3 mb-3 font-weight-normal">Subscribe for reminders</h1>
+    <input type="fullName" name="inputName" class="form-control" placeholder="Full Name" required>
+    <input type="email" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+
+    <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" value="remember-me"> Subscribe to important mass date reminders
+      </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Subscribe</button>
+  </form>
+</body>
+
+<%- include("partials/footer") -%>
