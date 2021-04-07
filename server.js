@@ -38,6 +38,10 @@ app.get("/subscribe", (req, res) => {
   res.render("subscribe.ejs");
 });
 
+app.get("/subscriptionSuccess", (req, res) => {
+  res.render("subscriptionSuccess.ejs");
+});
+
 app.post("/subscribe", (req, res) => {
   var fullName=req.body.inputName;
   var email=req.body.inputEmail;
@@ -88,7 +92,7 @@ app.post("/subscribe", (req, res) => {
 
   request.write(jsonData);
   request.end();
-  res.redirect("/subscribe");
+  res.redirect("/subscriptionSuccess");
 
 });
 
