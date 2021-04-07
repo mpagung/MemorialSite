@@ -41,6 +41,24 @@ app.get("/subscribe", (req, res) => {
 app.post("/subscribe", (req, res) => {
   var fullName=req.body.inputName;
   var email=req.body.inputEmail;
+  var weekReminder=req.body.week;
+  var threeDReminder=req.body.threeD;
+  var oneDReminder=req.body.oneD;
+  var zeroDReminder=req.body.zeroD;
+  var tags=[];
+  if (weekReminder){
+    tags.push("WeekReminder")
+  }
+  if (threeDReminder){
+    tags.push("threeDaysReminder")
+  }
+  if (oneDReminder){
+    tags.push("oneDayReminder")
+  }
+  if (zeroDReminder){
+    tags.push("zeroDayReminder")
+  }
+
   var data={
     members: [
       {
@@ -48,7 +66,8 @@ app.post("/subscribe", (req, res) => {
         status:"subscribed",
         merge_fields: {
           FULLNAME:fullName
-        }
+        },
+        tags : tags
       }
     ]};
 
@@ -61,15 +80,15 @@ app.post("/subscribe", (req, res) => {
     method : "POST",
     auth: "mpagung:"+api_key
   }
-  console.log("api_key is:"+api_key, list_id);
   const request = https.request(url,options,function(response){
     response.on("data", function(data){
-      console.log(JSON.parse(data))
+      // console.log(JSON.parse(data))
     })
   })
 
   request.write(jsonData);
   request.end();
+  res.redirect("/subscribe");
 
 });
 

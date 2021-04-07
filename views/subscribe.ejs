@@ -7,9 +7,20 @@
     <input type="fullName" name="inputName" class="form-control" placeholder="Full Name" required>
     <input type="email" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
 
+    <h6>When would you like to be reminded?
+    </h6>
     <div class="checkbox mb-3">
       <label>
-        <input type="checkbox" value="remember-me"> Subscribe to important mass date reminders
+        <input type="checkbox" name="week"> A week before the event
+      </label>
+      <label>
+        <input type="checkbox" name="threeD"> Three days before the event
+      </label>
+      <label>
+        <input type="checkbox" name="oneD"> A day before the event
+      </label>
+      <label>
+        <input type="checkbox" name="zeroD"> On the actual date
       </label>
     </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Subscribe</button>
