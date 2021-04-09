@@ -5,8 +5,17 @@ const express = require("express"),
 
 const bodyParser = require("body-parser");
 const https = require("https");
+var fs = require('fs');
+var path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
+
+const mongoose=require("mongoose");
+const url=process.env.MONGO_URL;
+mongoose.connect(url,{useNewUrlParser: true,useUnifiedTopology: true});
+var imgModel = require('./public/modules/models');
+
+
 
 app.set("view_engine", "ejs")
 app.use(bodyParser.urlencoded({extended:true}));
@@ -15,6 +24,22 @@ app.use(bodyParser.json());
 
 app.use(cors());
 app.listen(port, () => console.log("Backend server live on " + port));
+
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+
+var upload = multer({ storage: storage });
+
+
+
 
 app.get("/", (req, res) => {
   res.render("index.ejs");
@@ -96,7 +121,38 @@ app.post("/subscribe", (req, res) => {
 
 });
 
+app.get("/upload", (req,res)=>{
+  imgModel.find({}, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('An error occurred', err);
+        }
+        else {
+            res.render('uploadImage.ejs', { items: items });
+        }
+    });
+})
 
+app.post("/upload", upload.single('image'), (req,res,next)=>{
+    var tempPath=path.join(__dirname + '/uploads/' + req.file.filename)
+    var obj = {
+        name: req.body.name,
+        desc: req.body.desc,
+        img: {
+            data: fs.readFileSync(tempPath),
+            contentType: 'image/png'
+        }
+    }
+    imgModel.create(obj, (err, item) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            fs.unlinkSync(tempPath);
+            res.redirect('/');
+        }
+    });
+});
 
 app.get("/wip/:pageName", (req, res) => {
   res.render("wip.ejs",{pageName:req.params.pageName});
