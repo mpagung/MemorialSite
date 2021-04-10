@@ -154,6 +154,18 @@ app.post("/upload", upload.single('image'), (req,res,next)=>{
     });
 });
 
+app.get("/album", (req,res)=>{
+  imgModel.find({}, (err, items) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('An error occurred', err);
+        }
+        else {
+            res.render('album.ejs', { items: items });
+        }
+    });
+})
+
 app.get("/wip/:pageName", (req, res) => {
   res.render("wip.ejs",{pageName:req.params.pageName});
 });
