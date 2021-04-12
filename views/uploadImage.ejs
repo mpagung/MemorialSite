@@ -37,7 +37,7 @@
 
     <hr>
 
-    <h1>Uploaded Images</h1>
+    <h1>Uploaded Images Pending for Admin Approval</h1>
     <div>
         <% items.forEach(function(image) { %>
         <div>
@@ -46,11 +46,11 @@
                      <%=image.img.data.toString('base64')%>">
                 <div>
                     <h5><%= image.name %></h5>
-
-
-<p><%= image.desc %></p>
-
-
+                    <p><%= image.desc %></p>
+                    <!-- <p><%= image.isImage %></p>
+                    <p><%= image.verified %></p>
+                    <p><%= image.row %></p>
+                    <p><%= image.col %></p> -->
                 </div>
             </div>
         </div>

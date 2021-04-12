@@ -141,7 +141,11 @@ app.post("/upload", upload.single('image'), (req,res,next)=>{
         img: {
             data: fs.readFileSync(tempPath),
             contentType: 'image/png'
-        }
+        },
+        isImage: true,
+        verified: false,
+        row: -1,
+        col: -1
     }
     imgModel.create(obj, (err, item) => {
         if (err) {
