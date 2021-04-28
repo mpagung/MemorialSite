@@ -14,6 +14,8 @@ const mongoose=require("mongoose");
 const url=process.env.MONGO_URL;
 mongoose.connect(url,{useNewUrlParser: true,useUnifiedTopology: true});
 var imgModel = require('./public/modules/models');
+var suggestionModel = require("./public/modules/suggestionModel");
+const validateEmail = require("./public/modules/validateEmail");
 
 
 
@@ -66,6 +68,9 @@ app.get("/subscribe", (req, res) => {
 app.get("/subscriptionSuccess", (req, res) => {
   res.render("subscriptionSuccess.ejs");
 });
+app.get("/subscriptionFailed", (req, res) => {
+  res.render("subscriptionFailed.ejs");
+});
 
 app.post("/subscribe", (req, res) => {
   var fullName=req.body.inputName;
@@ -75,60 +80,67 @@ app.post("/subscribe", (req, res) => {
   var oneDReminder=req.body.oneD;
   var zeroDReminder=req.body.zeroD;
   var tags=[];
-  if (weekReminder){
-    tags.push("WeekReminder")
-  }
-  if (threeDReminder){
-    tags.push("threeDaysReminder")
-  }
-  if (oneDReminder){
-    tags.push("oneDayReminder")
-  }
-  if (zeroDReminder){
-    tags.push("zeroDayReminder")
-  }
+  if(validateEmail(email)){
+    if (weekReminder){
+      tags.push("WeekReminder")
+    }
+    if (threeDReminder){
+      tags.push("threeDaysReminder")
+    }
+    if (oneDReminder){
+      tags.push("oneDayReminder")
+    }
+    if (zeroDReminder){
+      tags.push("zeroDayReminder")
+    }
 
-  var data={
-    members: [
-      {
-        email_address:email,
-        status:"subscribed",
-        merge_fields: {
-          FULLNAME:fullName
-        },
-        tags : tags
-      }
-    ]};
+    var data={
+      members: [
+        {
+          email_address:email,
+          status:"subscribed",
+          merge_fields: {
+            FULLNAME:fullName
+          },
+          tags : tags
+        }
+      ]};
 
-  const jsonData=JSON.stringify(data);
+    const jsonData=JSON.stringify(data);
 
-  const api_key=process.env.MAILCHIMP_KEY;
-  const list_id=process.env.LIST_ID;
-  const url = "https://"+"us7"+".api.mailchimp.com/3.0/lists/"+list_id;
-  const options = {
-    method : "POST",
-    auth: "mpagung:"+api_key
-  }
-  const request = https.request(url,options,function(response){
-    response.on("data", function(data){
-      // console.log(JSON.parse(data))
+    const api_key=process.env.MAILCHIMP_KEY;
+    const list_id=process.env.LIST_ID;
+    const url = "https://"+"us7"+".api.mailchimp.com/3.0/lists/"+list_id;
+    const options = {
+      method : "POST",
+      auth: "mpagung:"+api_key
+    }
+    const request = https.request(url,options,function(response){
+      response.on("data", function(data){
+        // console.log(JSON.parse(data))
+      })
     })
-  })
 
-  request.write(jsonData);
-  request.end();
-  res.redirect("/subscriptionSuccess");
+    request.write(jsonData);
+    // request.on('error', function(e) {
+    //   console.error(e);
+    // });
+    request.end();
+    res.redirect("/subscriptionSuccess");
+  } else {
+    res.redirect("/subscriptionFailed");
+  }
 
 });
 
 app.get("/upload", (req,res)=>{
-  imgModel.find({}, (err, items) => {
+  imgModel.find({verified:false}, (err, items) => {
         if (err) {
             console.log(err);
             res.status(500).send('An error occurred', err);
         }
         else {
-            res.render('uploadImage.ejs', { items: items });
+            res.render('uploadImage.ejs', { items: items});
         }
     });
 })
@@ -165,9 +177,42 @@ app.get("/album", (req,res)=>{
             res.status(500).send('An error occurred', err);
         }
         else {
-            res.render('album.ejs', { items: items });
+            res.render('album.ejs', { items1: items.filter((item)=>item.col===1),items2: items.filter((item)=>item.col===2),items3: items.filter((item)=>item.col===3),items4: items.filter((item)=>item.col===4) });
         }
     });
+})
+
+app.get("/suggestion", (req,res)=>{
+  res.render("suggestion.ejs")
+})
+
+app.post("/suggestion",(req,res)=>{
+  var obj = {
+      name: file,
+      desc: "manual add by admin on "+date,
+      img: {
+          data: fs.readFileSync(path+file),
+          contentType: 'image/png'
+      },
+      isImage: true,
+      verified: true,
+      row: -1,
+      col: colNumber
+    }
+  imgModel.create(obj, (err, item) => {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        console.log("Uploading image..."+i+"/"+amount+"of row "+colNumber);
+        i++
+          // res.redirect('../views/uploadSuccess');
+      }
+  });
+})
+
+app.get("/suggestion", (req,res)=>{
+
 })
 
 app.get("/wip/:pageName", (req, res) => {
