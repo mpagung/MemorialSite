@@ -1,8 +1,8 @@
 const mongoose=require("mongoose");
 const suggestionSchema= new mongoose.Schema({
   name: String,
-  suggestion: String,
   email: String,
+  suggestion: String,
   date: String
 });
 

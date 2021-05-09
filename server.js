@@ -15,6 +15,7 @@ const url=process.env.MONGO_URL;
 mongoose.connect(url,{useNewUrlParser: true,useUnifiedTopology: true});
 var imgModel = require('./public/modules/models');
 var suggestionModel = require("./public/modules/suggestionModel");
+var subscriptionModel = require('./public/modules/subscriptionModel');
 const validateEmail = require("./public/modules/validateEmail");
 
 
@@ -58,7 +59,24 @@ app.post("/", (req, res) => {
 });
 
 app.get("/suggest", (req, res) => {
-  res.sendFile(__dirname+"/suggest.html");
+  res.render("suggest.ejs");
+});
+
+app.post("/suggest", (req, res) => {
+  var obj = {
+      name: req.body.inputName,
+      email: req.body.inputEmail,
+      suggestion: req.body.inputSuggestion,
+      date:new Date()
+  }
+  suggestionModel.create(obj, (err, item) => {
+      if (err) {
+          console.log(err);
+      }
+      else {
+          res.render("suggestSuccess.ejs");
+      }
+  });
 });
 
 app.get("/subscribe", (req, res) => {
@@ -106,6 +124,22 @@ app.post("/subscribe", (req, res) => {
         }
       ]};
 
+      // var mongoDBobject={
+      //   name: fullName,
+      //   email: email,
+      //   reminders: tags.toString(),
+      //   date: new Date()
+      // }
+      //
+      // subscriptionModel.create(mongoDBobject, (err, item) => {
+      //     if (err) {
+      //         console.log(err);
+      //     }
+      //     else {
+      //         res.redirect('/');
+      //     }
+      // });
+
     const jsonData=JSON.stringify(data);
 
     const api_key=process.env.MAILCHIMP_KEY;
@@ -127,8 +161,10 @@ app.post("/subscribe", (req, res) => {
     // });
     request.end();
     res.redirect("/subscriptionSuccess");
+    return;
   } else {
     res.redirect("/subscriptionFailed");
+    return;
   }
 
 });
