@@ -1,4 +1,4 @@
-<%- include("partials/header-album") -%>
+<%- include("partials/header-album") %>
 
 <body>
   <div class="header">
@@ -15,6 +15,7 @@
           </div>
           <div class="">
             <label for="desc">Image Description</label>
+            <p style="text-align:center">(Description will not be displayed, please leave your name if desired)</p>
             <textarea id="desc" class="form-control" name="pesc" value="" rows="2"
                       placeholder="Description" style="color:#000" required>
             </textarea>
@@ -42,9 +43,9 @@
 
     <h2>Uploaded Images Pending for Admin Approval:</h2>
     <div>
-      <% if (typeoff items === "undefined") {%>
+      <% if (items.length === 0) {%>
           <h2>No images are pending for approval</h2>
-        <%} else { console.log("works!");%>
+        <%} else {%>
         <% items.forEach(function(image) { %>
         <div>
             <div>
@@ -60,4 +61,4 @@
     </div>
   </body>
 
-<%- include("partials/footer") -%>
+<%- include("partials/footer") %>
