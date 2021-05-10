@@ -7,13 +7,6 @@ const express = require("express"),
   dotenv = require('dotenv'),
   subscribeModule = require('./public/module/subscribeModule.js');
 
-const bodyParser = require("body-parser");
-const https = require("https");
-var fs = require('fs');
-var path = require('path');
-const dotenv = require('dotenv');
-dotenv.config();
-
 const mongoose=require("mongoose");
 const url=process.env.MONGO_URL;
 mongoose.connect(url,{useNewUrlParser: true,useUnifiedTopology: true});
