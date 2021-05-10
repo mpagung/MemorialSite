@@ -4,8 +4,7 @@ const express = require("express"),
   cors = require("cors"),
   bodyParser = require("body-parser"),
   https = require("https"),
-  dotenv = require('dotenv'),
-  subscribeModule = require('./public/module/subscribeModule.js');
+  dotenv = require('dotenv');
 
 const mongoose=require("mongoose");
 const url=process.env.MONGO_URL;
