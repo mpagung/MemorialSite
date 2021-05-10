@@ -1,0 +1,15 @@
+<%- include("partials/header-subscribe") -%>
+
+<body class="text-center">
+  <form class="form-subscribe" action="/suggest" method="post">
+    <img src="/images/paperwindmill.png" alt="Paper Windmill" class="rotate" id="windmill" width="72" height="72" style="margin-bottom:30px">
+    <h1 class="h2 mb-3 font-weight-normal" style="font-size:24px;">What features/suggestions would you like to share?</h1>
+    <input type="fullName" style="margin-top:40px" name="inputName" class="form-control" placeholder="Full Name" required>
+    <input type="email" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+    <textarea type="suggestion" rows="3" name="inputSuggestion" class="form-control" placeholder="Suggestion" required></textarea>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit" style="margin-top:50px">Submit Suggestion</button>
+  </form>
+</body>
+
+<%- include("partials/footer") -%>

@@ -1,0 +1,64 @@
+<%- include("partials/header-album") %>
+
+<body>
+  <div class="header">
+    <h1>Add single photos to the album</h1>
+  </div>
+  <div class="inputSection">
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+        <div class="col" style="width:">
+
+          <div class="">
+            <label for="name">Image Title</label>
+            <input type="text" class="form-control" id="name" placeholder="Name"
+                   value="" name="name" required>
+          </div>
+          <div class="">
+            <label for="desc">Image Description</label>
+            <p style="text-align:center">(Description will not be displayed, please leave your name if desired)</p>
+            <textarea id="desc" class="form-control" name="pesc" value="" rows="2"
+                      placeholder="Description" style="color:#000" required>
+            </textarea>
+          </div>
+
+          <!-- <div class="row" style="background-color: #fff"> -->
+            <label for="image">Upload Image</label>
+          <!-- </div> -->
+          <!-- <div class="row" style="background-color: #fff"> -->
+            <input type="file" id="image"
+                 name="image" value="" required>
+          <!-- </div> -->
+        </div>
+
+          <div>
+              <button type="submit" style="margin-bottom: 50px" class="btn btn-default">Submit</button>
+          </div>
+      </form>
+  </div>
+
+    <h2>Or upload images to google drive:</h2>
+    <a href="https://drive.google.com/drive/folders/1fHPzLVS0PhD6wq7jtIjjwnivwQfOvQE3?usp=sharing">Go to drive</a>
+
+    <hr>
+
+    <h2>Uploaded Images Pending for Admin Approval:</h2>
+    <div>
+      <% if (items.length === 0) {%>
+          <h2>No images are pending for approval</h2>
+        <%} else {%>
+        <% items.forEach(function(image) { %>
+        <div>
+            <div>
+                <img src="data:image/<%=image.img.contentType%>;base64,
+                     <%=image.img.data.toString('base64')%>">
+                <div>
+                    <h5><%= image.name %></h5>
+                    <p><%= image.desc %></p>
+                </div>
+            </div>
+        </div>
+        <% })} %>
+    </div>
+  </body>
+
+<%- include("partials/footer") %>

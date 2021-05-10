@@ -1,0 +1,64 @@
+<%- include("partials/header-album") -%>
+
+
+<body>
+  <div class="header">
+    <h1>Matthew's Photo Gallery</h1>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <!-- <h2>Column 1</h2> -->
+      <% items1.forEach(function(image) { %>
+        <div>
+          <img src="data:image/<%=image.img.contentType%>;base64,
+               <%=image.img.data.toString('base64')%>">
+          <!-- <div>
+              <h5><%= image.name %></h5>
+              <p><%= image.desc %></p>
+          </div> -->
+        </div>
+      <% }) %>
+    </div>
+    <div class="col">
+      <!-- <h2>Column 2</h2> -->
+      <% items2.forEach(function(image) { %>
+        <div>
+          <img src="data:image/<%=image.img.contentType%>;base64,
+               <%=image.img.data.toString('base64')%>">
+          <!-- <div>
+              <h5><%= image.name %></h5>
+          </div> -->
+        </div>
+      <% }) %>
+    </div>
+    <div class="col">
+      <!-- <h2>Column 3</h2> -->
+      <% items3.forEach(function(image) { %>
+        <div>
+          <img src="data:image/<%=image.img.contentType%>;base64,
+               <%=image.img.data.toString('base64')%>">
+          <!-- <div>
+              <h5><%= image.name %></h5>
+          </div> -->
+        </div>
+      <% }) %>
+    </div>
+    <div class="col">
+      <!-- <h2>Column 4</h2> -->
+      <% items4.forEach(function(image) { %>
+        <div>
+          <img src="data:image/<%=image.img.contentType%>;base64,
+               <%=image.img.data.toString('base64')%>">
+          <!-- <div>
+              <h5><%= image.name %></h5>
+          </div> -->
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+
+</body>
+
+<%- include("partials/footer") -%>
