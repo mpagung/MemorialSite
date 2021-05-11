@@ -13,7 +13,7 @@ var imgModel = require('./public/modules/models');
 var suggestionModel = require("./public/modules/suggestionModel");
 var subscriptionModel = require('./public/modules/subscriptionModel');
 const validateEmail = require("./public/modules/validateEmail");
-
+const path = require('path');
 
 
 app.set("view_engine", "ejs")
