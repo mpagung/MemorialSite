@@ -41,14 +41,14 @@
 
     <hr>
 
-    <h2>Uploaded Images Pending for Admin Approval:</h2>
+    <h2 style="margin:40px 0 0 0">Uploaded Images Pending for Admin Approval:</h2>
     <div>
       <% if (items.length === 0) {%>
           <h2>No images are pending for approval</h2>
         <%} else {%>
         <% items.forEach(function(image) { %>
         <div>
-            <div>
+            <div class="toBeUploaded">
                 <img src="data:image/<%=image.img.contentType%>;base64,
                      <%=image.img.data.toString('base64')%>">
                 <div>

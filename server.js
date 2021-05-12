@@ -4,7 +4,7 @@ const express = require("express"),
   cors = require("cors"),
   bodyParser = require("body-parser"),
   https = require("https"),
-  dotenv = require('dotenv');
+  dotenv = require('dotenv').config();
 
 const fs = require('fs');
 const mongoose=require("mongoose");

@@ -52,6 +52,12 @@ h2 {
   margin:0 10px;
 }
 
+.toBeUploaded img {
+  width: 70vw;
+  padding-top: 40px;
+  padding-bottom: 20px;
+}
+
 .col img {
   margin:10px 0;
   vertical-align: middle;
@@ -93,6 +99,33 @@ label {
   background-color: : #282C34;
   color: #282C34;
   border-color: #282C34;
+}
+
+@media screen and (max-width: 1400px) {
+  .col {
+    flex: 47%;
+    max-width: 47%;
+  }
+  /* .textBoxLandscape p{
+    font-size: 2.5vw;
+  }
+  .textBoxPotrait p{
+    font-size: 2.5vw;
+  } */
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col {
+    flex: 98%;
+    max-width: 98%;
+  }
+  /* .textBoxLandscape p{
+    font-size: 5vw;
+  }
+  .textBoxPotrait p{
+    font-size: 5vw;
+  } */
 }
 
 
